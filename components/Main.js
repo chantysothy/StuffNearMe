@@ -20,10 +20,11 @@ class Main extends React.Component {
         return (
             <NavigatorIOS
                 style={{ flex: 1 }}
-                ref="nav"
-                navigationBarHidden={true}
-                title="Nearby"
+                translucent={false}
+                titleTextColor={'#7C4DFF'}
+                barTintColor={'#f0f0f0'}
                 initialRoute={{
+                    title: 'Nearby',
                     component: Home
                 }}
             />

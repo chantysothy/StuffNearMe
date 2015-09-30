@@ -1,5 +1,5 @@
 let React = require('react-native');
-let EventDetails = require('./EventDetails');
+let EventDetail = require('./EventDetail');
 let {
     View,
     Text,
@@ -20,8 +20,8 @@ class NearbyListItem extends React.Component {
         console.log(Object.keys(this.props));
 
         this.props.navigator.push({
-            component: EventDetails,
-            title: 'Event Details',
+            component: EventDetail,
+            //title: 'Event Detail',
             passProps: this.props
         });
     }
