@@ -1,0 +1,3 @@
+rootProject.name = 'stuffnearme'
+
+include ':app'
