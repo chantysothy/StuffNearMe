@@ -21,7 +21,6 @@ class NearbyListItem extends React.Component {
 
         this.props.navigator.push({
             component: EventDetail,
-            //title: 'Event Detail',
             passProps: this.props
         });
     }
@@ -29,7 +28,7 @@ class NearbyListItem extends React.Component {
     render() {
         return (
             <View>
-                <TouchableHighlight onPress={this.onDetailPress.bind(this)}>
+                <TouchableHighlight onPress={this.onDetailPress.bind(this)} underlayColor="#f0f0f0">
                     <View style={styles.container}>
                         <Text style={styles.title}>{this.props.title.toUpperCase()}</Text>
                         <Text style={styles.extra}>{this.props.extra}</Text>

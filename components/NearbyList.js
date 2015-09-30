@@ -37,11 +37,10 @@ let styles = StyleSheet.create({
         flexDirection: 'column'
     },
     nearbyHeader: {
-        paddingTop: 20,
-        paddingLeft: 10,
+        padding: 20,
         fontSize: 20,
         fontWeight: 'bold',
-        color:'#69F0AE'
+        color:'#0091EA'
     }
 });
 
