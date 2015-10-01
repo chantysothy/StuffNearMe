@@ -1,51 +1,57 @@
-var React = require('react-native');
-
-var {
+let React = require('react-native');
+let moment = require('moment');
+let {
     View,
     Text,
-    Image
+    Image,
+    MapView,
+    TouchableHighlight
 } = React;
 
 
 class EventDetail extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
+
+        let startDate = moment(this.props.start).format('lll');
+
+        let coverColor = [styles.coverFee];
+
+        if(Number(this.props.cover) > 0) {
+            coverColor.push(styles.coverFeeNotFree);
+        }
+        else {
+            coverColor.push(styles.coverFeeFree);
+        }
+
         return (
-            <View style={styles.container}>
+            <View style={{ flex: 1 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Image style={styles.eventAvatar} source={{ uri: 'https://unsplash.it/300/350/' }} />
 
                     <View style={styles.main}>
-                        <Text style={styles.eventDate}>25 Aug 2015, 09 AM</Text>
-                        <Text style={styles.eventName}>Ladies drink for FREE!</Text>
+                        <Text style={styles.eventDate}>{startDate}</Text>
+                        <Text style={styles.eventName}>{this.props.name}</Text>
                     </View>
                 </View>
 
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={styles.location}>
                         <Text style={styles.locationLabel}>where</Text>
-                        <Text style={styles.locationText}>The Ampitheatre</Text>
-                        <Text style={styles.locationAddress}>12345 Brisbane St. Tampa, FL 33635</Text>
+                        <Text style={styles.locationText}>{this.props.locationName}</Text>
+                        <Text style={styles.locationAddress}>{this.props.address} {this.props.city}, {this.props.state} {this.props.postalCode}</Text>
                         <Text style={styles.locationDistance}>300 feet away</Text>
                     </View>
-                    <View style={styles.coverFee}>
+                    <View style={coverColor}>
                         <Text style={styles.coverFeeText}>
-                            FREE
+                            ${Number(this.props.cover) === 0 ? 'FREE' : this.props.cover}
                         </Text>
                     </View>
                 </View>
 
-                <View style={{ flex: 2.5, flexDirection: 'row', borderBottom: '1' }}>
-                    <View style={{ flex: 1 }}>
-                        <Text style={styles.description}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </Text>
-                    </View>
-                </View>
+                <MapView style={{ flex: 2.5 }} region={{ latitude: this.props.geolocation.latitude, longitude: this.props.geolocation.longitude, latitudeDelta: 0.001, longitudeDelta: 0.001 }} />
             </View>
         );
     }
@@ -104,7 +110,12 @@ let styles = React.StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    coverFeeFree: {
         backgroundColor: '#00E676'
+    },
+    coverFeeNotFree: {
+        backgroundColor: '#FF5252'
     },
     coverFeeText: {
         color: '#FFF',
@@ -115,6 +126,18 @@ let styles = React.StyleSheet.create({
         flex: 1,
         padding: 25,
         color:'#333'
+    },
+    willBeThereButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    willBeThereText: {
+        color: '#FFF',
+        fontSize: 20,
+        fontWeight: '700',
+        backgroundColor: '#FFAB40',
+        alignSelf: 'center'
     }
 });
 

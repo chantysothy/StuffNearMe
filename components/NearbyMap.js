@@ -46,8 +46,7 @@ class NearbyMap extends React.Component {
                 <MapView
                     region={this.state.region}
                     style={styles.map}
-                    zoomEnabled={false}
-                />
+                    zoomEnabled={false} />
             </View>
         );
     }

@@ -12,19 +12,32 @@ class NearbyList extends React.Component {
     constructor(props) {
         super(props);
 
-        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        this.state = { dataSource: ds.cloneWithRows(props.nearbyEvents), modalActive: false }
+
     }
 
     renderRow(data, index) {
-        return <NearbyListItem key={index} title={data.title} extra={data.extra} region={data.region} type={data.type} navigator={this.props.navigator} />;
+        let event = data.attributes;
+        return (<NearbyListItem
+            key={index} name={event.name}
+            description={event.description}
+            region={event.region}
+            type={event.type}
+            address={event.address}
+            start={event.start}
+            locationName={event.location_name}
+            city={event.city}
+            state={event.state}
+            postalCode={event.postal_code}
+            cover={event.cover}
+            geolocation={event.location}
+            navigator={this.props.navigator} />);
     }
 
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <Text style={styles.nearbyHeader}>NEARBY EVENTS (1 mile)</Text>
-                {this.props.nearbyEvents.map(this.renderRow.bind(this))}
+                {this.props.events.map(this.renderRow.bind(this))}
             </View>
         );
     }

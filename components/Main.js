@@ -2,8 +2,7 @@ let React = require('react-native');
 let Home = require('./Home');
 let {Parse} = require('parse/react-native');
 
-let Event = Parse.Object.extend('event');
-let query = new Parse.Query(Event);
+Parse.initialize('Jyo0lwRrIQt8pIeuNPWNKwUwH8diQ7LCUf3FNur3', 'lNYkKH7okkALImFVG9xq7s4fE4GSe9dEyCBJN9UR');
 
 let {
     View,
@@ -18,12 +17,6 @@ class Main extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { events: {} };
-
-        query.find({
-            success: (results) => this.setState({ events: results }),
-            error: () => alert('Could not find any events nearby')
-        });
     }
 
     render() {
@@ -35,8 +28,7 @@ class Main extends React.Component {
                 barTintColor='#f0f0f0'
                 initialRoute={{
                     title: 'Nearby',
-                    component: Home,
-                    passProps: { events: this.state.events }
+                    component: Home
                 }}
             />
         );

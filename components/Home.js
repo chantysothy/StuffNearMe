@@ -1,7 +1,8 @@
 let React = require('react-native');
 let NearbyMap = require('./NearbyMap');
 let NearbyList = require('./NearbyList');
-let eventData = require('./../data/events');
+let {Parse} = require('parse/react-native');
+
 let {
     View,
     Text,
@@ -16,15 +17,21 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
 
-        let mockRegion = { longitude: -82.2, latitude: 28.0, longitudeDelta: 0.01, latitudeDelta: 0.01 };
+        let Event = Parse.Object.extend('Event');
+        let query = new Parse.Query(Event);
 
-        this.state = eventData;
+        this.state = { events: [] };
+
+        query.find({
+            success: (results) => this.setState({ events: results }),
+            error: () => alert('Could not find any events nearby')
+        });
     }
 
     render() {
         return (
             <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-                <NearbyList nearbyEvents={this.state.events} navigator={this.props.navigator} />
+                <NearbyList events={this.state.events} navigator={this.props.navigator} />
             </ScrollView>
         );
     }
