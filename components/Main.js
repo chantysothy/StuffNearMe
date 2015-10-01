@@ -24,7 +24,7 @@ class Main extends React.Component {
             <NavigatorIOS
                 style={{ flex: 1 }}
                 translucent={false}
-                titleTextColor='#7C4DFF'
+                titleTextColor='#FF1744'
                 barTintColor='#f0f0f0'
                 initialRoute={{
                     title: 'Nearby',

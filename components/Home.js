@@ -42,7 +42,8 @@ let styles = StyleSheet.create({
         flex: 1,
         alignItems: 'stretch',
         flexDirection: 'column',
-        height: 6000
+        height: 6000,
+        backgroundColor: '#ECEFF1'
     },
     map: {
         flex: 1

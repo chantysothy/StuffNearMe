@@ -26,10 +26,10 @@ class NearbyListItem extends React.Component {
     render() {
         return (
             <View>
-                <TouchableHighlight onPress={this.onDetailPress.bind(this)} underlayColor="#f0f0f0">
+                <TouchableHighlight style={styles.row} onPress={this.onDetailPress.bind(this)} underlayColor="#f0f0f0">
                     <View style={styles.container}>
                         <Text style={styles.title}>{this.props.name}</Text>
-                        <Text style={styles.extra}>{this.props.extra}</Text>
+                        <Text style={styles.shortDistance}>3km away</Text>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -38,18 +38,29 @@ class NearbyListItem extends React.Component {
 }
 
 let styles = StyleSheet.create({
+    row: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#FFF',
+        height: 75,
+        marginBottom: 2
+    },
     container: {
         flex: 1,
+        flexDirection: 'row',
         alignItems: 'stretch',
         padding: 10,
     },
     title: {
-        fontSize: 15,
+        flex: 3,
+        fontSize: 22,
         color:'#666666'
     },
-    extra: {
-        fontSize: 11,
-        color: '#999999'
+    shortDistance: {
+        flex: 1,
+        fontWeight: '900',
+        marginLeft: 20,
+        color: '#b4b4b4'
     }
 });
 

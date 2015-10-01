@@ -5,14 +5,13 @@ let {
     Text,
     StyleSheet,
     ListView,
+    TouchableHighlight
 } = React;
 
 class NearbyList extends React.Component {
 
     constructor(props) {
         super(props);
-
-
     }
 
     renderRow(data, index) {
@@ -36,7 +35,10 @@ class NearbyList extends React.Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Text style={styles.nearbyHeader}>NEARBY EVENTS (1 mile)</Text>
+                <Text style={styles.nearbyHeader}>NEARBY EVENTS - TONIGHT</Text>
+                <TouchableHighlight style={styles.radiusSetting}>
+                    <Text>Radius: 0.5 miles</Text>
+                </TouchableHighlight>
                 {this.props.events.map(this.renderRow.bind(this))}
             </View>
         );
@@ -50,10 +52,16 @@ let styles = StyleSheet.create({
         flexDirection: 'column'
     },
     nearbyHeader: {
-        padding: 20,
-        fontSize: 20,
+        paddingTop: 20,
+        paddingLeft: 20,
+        fontSize: 16,
         fontWeight: 'bold',
-        color:'#0091EA'
+        color:'#FF1744'
+    },
+    radiusSetting: {
+        paddingLeft: 20,
+        paddingBottom: 20,
+        fontWeight: '900'
     }
 });
 
