@@ -1,5 +1,7 @@
 let React = require('react-native');
 let NearbyListItem = require('./NearbyListItem');
+let moment = require('moment-timezone');
+
 let {
     View,
     Text,
@@ -14,32 +16,49 @@ class NearbyList extends React.Component {
         super(props);
     }
 
-    renderRow(data, index) {
-        let event = data.attributes;
+    renderRow(eventModel, index) {
         return (<NearbyListItem
-            key={index} name={event.name}
-            description={event.description}
-            region={event.region}
-            type={event.type}
-            address={event.address}
-            start={event.start}
-            locationName={event.location_name}
-            city={event.city}
-            state={event.state}
-            postalCode={event.postal_code}
-            cover={event.cover}
-            geolocation={event.location}
+            eventModel={eventModel}
+            key={index}
             navigator={this.props.navigator} />);
     }
 
     render() {
+
+        let nearbyTonight = [];
+        let fartherTonight = [];
+        let nearbyTomorrow = [];
+
+        for(let eventModel of this.props.events) {
+            let distance = eventModel.getDistanceInMiles(this.props.latitude, this.props.longitude);
+
+            let end = eventModel.get('end');
+
+            console.log(moment(end).tz('America/Denver').format('LLL'));
+
+            eventModel.set('distance', distance);
+
+            if(distance < 1 && eventModel.isToday()) {
+                nearbyTonight.push(eventModel);
+            }
+            else if(distance > 1) {
+                fartherTonight.push(eventModel);
+            }
+        }
+
+        let fartherAwayTonight = !!fartherTonight.length ? <Text style={[styles.nearbyHeader, { marginBottom: 15 }]}>FARTHER AWAY - TONIGHT</Text> : null;
+
         return (
-            <View style={{ flex: 1 }}>
+            <View heigh={{ flex: 1 }}>
                 <Text style={styles.nearbyHeader}>NEARBY EVENTS - TONIGHT</Text>
-                <TouchableHighlight style={styles.radiusSetting}>
+                <TouchableHighlight style={styles.radiusSetting} underlayColor="#e5e5e5">
                     <Text>Radius: 0.5 miles</Text>
                 </TouchableHighlight>
-                {this.props.events.map(this.renderRow.bind(this))}
+                {nearbyTonight.map(this.renderRow.bind(this))}
+
+                {fartherAwayTonight}
+                {fartherTonight.map(this.renderRow.bind(this))}
+
             </View>
         );
     }
@@ -60,8 +79,7 @@ let styles = StyleSheet.create({
     },
     radiusSetting: {
         paddingLeft: 20,
-        paddingBottom: 20,
-        fontWeight: '900'
+        paddingBottom: 20
     }
 });
 

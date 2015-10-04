@@ -1,5 +1,5 @@
 let React = require('react-native');
-let moment = require('moment');
+let moment = require('moment-timezone');
 let {
     View,
     Text,
@@ -14,17 +14,20 @@ class EventDetail extends React.Component {
         super(props);
     }
     render() {
-
-        let startDate = moment(this.props.start).format('lll');
-
         let coverColor = [styles.coverFee];
+        let event = this.props.eventModel;
 
-        if(Number(this.props.cover) > 0) {
+        if(Number(event.get('cover')) > 0) {
             coverColor.push(styles.coverFeeNotFree);
         }
         else {
             coverColor.push(styles.coverFeeFree);
         }
+
+        let fromTime = moment(event.get('start'));
+        let toTime = moment(event.get('end'));
+
+        let now = moment.tz('GMT');
 
         return (
             <View style={{ flex: 1 }}>
@@ -32,26 +35,29 @@ class EventDetail extends React.Component {
                     <Image style={styles.eventAvatar} source={{ uri: 'https://unsplash.it/300/350/' }} />
 
                     <View style={styles.main}>
-                        <Text style={styles.eventDate}>{startDate}</Text>
-                        <Text style={styles.eventName}>{this.props.name}</Text>
+                        <Text style={styles.eventDate}>
+                            {fromTime < now ? 'now until ' : fromTime.format('h:mm A') + ' to '}
+                            {toTime.format('h:mm A')}
+                        </Text>
+                        <Text style={styles.eventName}>{event.get('name')}</Text>
                     </View>
                 </View>
 
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={styles.location}>
                         <Text style={styles.locationLabel}>where</Text>
-                        <Text style={styles.locationText}>{this.props.locationName}</Text>
-                        <Text style={styles.locationAddress}>{this.props.address} {this.props.city}, {this.props.state} {this.props.postalCode}</Text>
-                        <Text style={styles.locationDistance}>300 feet away</Text>
+                        <Text style={styles.locationText}>{event.get('location_name')}</Text>
+                        <Text style={styles.locationAddress}>{event.get('address')} {event.get('city')}, {event.get('state')} {event.get('postal_code')}</Text>
+                        <Text style={styles.locationDistance}>{Math.round(event.get('distance') * 10) / 10} miles away</Text>
                     </View>
                     <View style={coverColor}>
                         <Text style={styles.coverFeeText}>
-                            ${Number(this.props.cover) === 0 ? 'FREE' : this.props.cover}
+                            {Number(event.get('cover')) === 0 ? 'FREE' : '$' + event.get('cover')}
                         </Text>
                     </View>
                 </View>
 
-                <MapView style={{ flex: 2.5 }} region={{ latitude: this.props.geolocation.latitude, longitude: this.props.geolocation.longitude, latitudeDelta: 0.001, longitudeDelta: 0.001 }} />
+                <MapView style={{ flex: 2.5 }} region={{ latitude: event.get('location').latitude, longitude: event.get('location').longitude, latitudeDelta: 0.0005, longitudeDelta: 0.0005 }} />
             </View>
         );
     }

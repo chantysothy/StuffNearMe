@@ -27,7 +27,7 @@ class Main extends React.Component {
                 titleTextColor='#FF1744'
                 barTintColor='#f0f0f0'
                 initialRoute={{
-                    title: 'Nearby',
+                    title: 'Stuff Happening Nearby',
                     component: Home
                 }}
             />
