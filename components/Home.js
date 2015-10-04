@@ -33,7 +33,7 @@ class Home extends React.Component {
         let currentGeoPoint = new Parse.GeoPoint(this.state.latitude, this.state.longitude);
 
         eventQuery.withinMiles('location', currentGeoPoint, 30);
-        eventQuery.greaterThan('end', new Date());
+        //eventQuery.greaterThan('end', new Date());
 
         eventQuery.find({
             success: (results) => this.setState({ events: results, loading: false }),
